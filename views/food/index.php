@@ -30,15 +30,10 @@ $this->params['breadcrumbs'][] = $this->title;
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
+        
     ]);
-    
-    foreach ($models as $model) {
-     
-    }
-    
-    echo GridView::widget([
-    'pagination' => $pages,
-]);
+  
+ 
     ?>
     
 </div>
