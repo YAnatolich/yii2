@@ -8,7 +8,7 @@ use app\models\FoodSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\data\Pagination;
+
 /**
  * FoodController implements the CRUD actions for Food model.
  */
@@ -35,28 +35,15 @@ class FoodController extends Controller
      */
     public function actionIndex()
     {
-       $query = Food::find();
-       $countQuery = clone $query;
        
-       $pages = new Pagination(['totalCount' => $countQuery->count()]);
-       
-       $models = $query->offset($pages->offset)
-        ->limit($pages->limit)
-        ->all();
-       
-        $searchModel = new FoodSearch();
+         $searchModel = new FoodSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-         $pagination = new Pagination([
-            'defaultPageSize' => 5,
-            'totalCount' => $query->count(),
-        ]);
+        
       
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-             'models' => $models,
-            'pages' => $pages,
         ]);
     }
 

@@ -48,7 +48,8 @@ class FoodSearch extends Food
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-        ]);
+            'pagination' => array('pageSize' => 5),
+]);
 
         $this->load($params);
 
