@@ -9,11 +9,23 @@ FROM order_food, food WHERE order_food.id_food = food.id_food
 
 2)список последних 5 заказов
 a)
-SELECT id_order 
-FROM `order` GROUP BY id_order DESC LIMIT 5
+SELECT order_food.id_order, food.name_food, food.id_food
+FROM order_food, food
+WHERE order_food.id_order
+IN (
 
-b) SELECT food.name_food, `order_food`.id_order WHERE order_food.id_order IN (SELECT id_order 
-FROM `order` GROUP BY id_order DESC LIMIT 5);
+SELECT id_order
+FROM (
+
+	SELECT id_order
+	FROM `order`
+	GROUP BY id_order DESC
+	LIMIT 5
+) AS s
+)
+AND order_food.id_food = food.id_food
+ORDER BY `order_food`.`id_order` ASC
+LIMIT 0 , 30
 
 
 c) Список 5 популярных блюд
