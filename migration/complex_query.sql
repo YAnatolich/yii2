@@ -28,10 +28,17 @@ ORDER BY `order_food`.`id_order` ASC
 LIMIT 0 , 30
 
 
-c) Список 5 популярных блюд
-SELECT food.name_food, COUNT( food.name_food ) , order_food.id_food, order_food.id_order
+3) Список 5 популярных блюд
+SELECT food.name_food, COUNT( food.name_food ),
+ order_food.id_food, order_food.id_order
 FROM food 
 JOIN order_food ON order_food.id_food = food.id_food
 GROUP BY food.name_food
 ORDER BY COUNT( food.name_food ) DESC
 LIMIT 5
+
+4) 10 успешных официантов
+SELECT waiter.id_waiter, waiter.name, waiter.surname, cnt_order FROM 
+(SELECT id_waiter, COUNT(id_waiter) AS cnt_order
+ FROM `order` GROUP BY id_waiter ORDER BY cnt_order DESC LIMIT 10) as s
+ JOIN waiter ON waiter.id_waiter = s.id_waiter

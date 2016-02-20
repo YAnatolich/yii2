@@ -9,6 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\db\Connection;
+use  yii\db\Query;
 /**
  * OrderController implements the CRUD actions for Order model.
  */
@@ -122,17 +123,26 @@ class OrderController extends Controller
         }
     }
     public function actionViews(){
+        $query = new Query();
         $db = new Connection([
     'dsn' => 'mysql:host=localhost;dbname=tz',
     'username' => 'root',
     'password' => 'NtvysqGfk',
     'charset' => 'utf8',
 ]);
-        $date = date('Y-m-d');
-    $post = $db->createCommand('SELECT * FROM `order` WHERE `id_waiter` = 13 ORDER BY `id_waiter` ASC')
-           ->queryAll();
-   foreach ($post as $key){
-       foreach ($key as $key1)echo $key1;
+        $date = date('Y-m');
+//    $post = $db->createCommand('SELECT * FROM `order`'
+//            . ' WHERE date_order  LIKE %'.$date.'%')
+//           ->query();
+    
+    echo "asdf";
+   $post1 = (new Query())->select('*')->from('order'); 
+            
+            
+   foreach ($post1 as $key){
+       foreach($key as $key1)
+       echo $key1."asdfsdf<BR/>";
+      
    }
     
     
