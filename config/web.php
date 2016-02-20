@@ -46,7 +46,15 @@ $config = [
             ],
         ],
         */
+        'db2' => [
+           'class' => 'yii\db\Connection',
+            'dsn' => 'mysql:host=localhost;dbname=tz',
+            'username' => 'root',
+           'password' => 'NtvysqGfk',
+            'charset' => 'utf8',
+        ],
     ],
+  
     'params' => $params,
 ];
 

@@ -46,6 +46,8 @@ class Order extends \yii\db\ActiveRecord
             'id_order' => 'Id Order',
             'id_waiter' => 'Id Waiter',
             'date_order' => 'Date Order',
+            // MY MARK DELETE
+            'waiter.name' =>'waiter',
         ];
     }
 

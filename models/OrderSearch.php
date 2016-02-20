@@ -6,7 +6,7 @@ use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\Order;
-
+use app\models\Waiter;
 /**
  * OrderSearch represents the model behind the search form about `app\models\Order`.
  */
@@ -42,11 +42,13 @@ class OrderSearch extends Order
     public function search($params)
     {
         $query = Order::find();
-
+        
+        $query2 = Waiter::find();
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            
         ]);
 
         $this->load($params);
