@@ -21,6 +21,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\models\EntryForm;
 use yii\data\SqlDataProvider;
+use yii\data\ArrayDataProvider;
 
 class SqlDataProvider1 extends  SqlDataProvider{
     public $sumFromPrice;
@@ -56,32 +57,55 @@ class RestoranController extends \yii\web\Controller
     ->orderBy('cnt_food DESC')    
     ->limit(10)
     ;*/
-
-$dataProvider3 = new SqlDataProvider1([
-    'sql' => 'SELECT food.name_food, COUNT( food.name_food ) as cnt_food,
+       
+       $command = Yii::$app->db->createCommand( '
+SELECT food.name_food, COUNT( food.name_food ) as cnt_food,
  order_food.id_food, order_food.id_order
 FROM food 
 JOIN order_food ON order_food.id_food = food.id_food
 GROUP BY food.name_food
-ORDER BY cnt_food DESC 
+ORDER BY COUNT( food.name_food ) DESC Limit 5
+
+' );
+$models = $command->queryAll();
+for ( $i = 0; $i < count( $models ); $i++ ) {
+    $models[$i]['place'] = $i + 1;
+}
+
+$dataProvider3 = new ArrayDataProvider([
+     'allModels' => $models,
+    'sort' => [
+        
+        'attributes' => [
+            'name_food',
+            'id_food',
+            'cnt_food',
+            'matches' => [ 'default' => SORT_DESC ],
+        ],
+    ],
+    'pagination' => [ 'pageSize' => 100 ],
+ ]);
+/*$dataProvider3 = new SqlDataProvider1([
+    'sql' => 'SELECT food.name_food, food.id_food, order_food.id_order
+ FROM food
+ JOIN `order_food` ON order_food.id_food = food.id_food
 ',
     'params' => [':date'=>"2016-02-17"],
-    'totalCount' => 5,
+    'totalCount' =>120,
     'sort' => [
         'attributes' => [
             'name_food',
-            'cnt_food',
             'id_food',
             'id_order',
             
         ],
     ],
     'pagination' => [
-        'pageSize' => 5,
+        'pageSize' => 20,
     ],
 ]);
 
-
+*/
 
 $dataProvider = new SqlDataProvider1([
     'sql' => 'SELECT SUM(food.price) AS sumFromPrice
@@ -106,28 +130,21 @@ FROM order_food, food WHERE order_food.id_food = food.id_food
 ]);
 
 $dataProvider2 = new SqlDataProvider1([
-    'sql' => 'SELECT order_food.id_order, food.name_food, food.id_food
-FROM order_food, food
-WHERE order_food.id_order
-IN (
-
-SELECT id_order
-FROM (
-
-	SELECT id_order
-	FROM `order`
-	GROUP BY id_order DESC
-	LIMIT 5
-) AS s
-)
-AND order_food.id_food = food.id_food
-ORDER BY `order_food`.`id_order` ASC',
-    'params' => [':date'=>"2016-02-17"],
+    'sql' => 'SELECT food.name_food, COUNT( food.name_food ) as cnt_food,
+ order_food.id_food, order_food.id_order
+FROM food 
+JOIN order_food ON order_food.id_food = food.id_food
+GROUP BY food.name_food
+ORDER BY  cnt_food DESC',
+    
     'totalCount' => 40,
     'sort' => [
         'attributes' => [
-            'order_id',
+            
             'name_food',
+            'cnt_food',
+            'id_food',
+            
             'name' => [
                 'asc' => ['first_name' => SORT_ASC, 'last_name' => SORT_ASC],
                 'desc' => ['first_name' => SORT_DESC, 'last_name' => SORT_DESC],
@@ -137,7 +154,7 @@ ORDER BY `order_food`.`id_order` ASC',
         ],
     ],
     'pagination' => [
-        'pageSize' => 20,
+        'pageSize' => 5,
     ],
 ]);
 
