@@ -18,7 +18,7 @@ class OrderFood extends \yii\db\ActiveRecord
 {
     public $cnt_food;
     public $cnt_order;
-    public $food_name;
+    public $name_food;
     /**
      * @inheritdoc
      */

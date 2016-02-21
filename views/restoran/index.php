@@ -8,73 +8,49 @@ use yii\grid\GridView;
 use yii\data\ActiveDataProvider;
 $this->title = 'Restoran';
 $this->params['breadcrumbs'][] = $this->title;
-$pagination = $pagination = new Pagination([
+/*$pagination = $pagination = new Pagination([
             'defaultPageSize' => 5,
-            'totalCount' => 20,
-        ]);
+            'totalCount' => 5,
+        ]);*/
 ?>
 
 <h1>restoran/index</h1>
+<h2>Популярные блюда</h2>
 <ul>
     
     
 <?php 
-$query2 = $query1->all();
-foreach ($query2 as $key): ?>
+$queryVar = $queryPopFood->all();
+array_splice($queryVar,5);
+foreach ($queryVar as $key): ?>
     <li>
-        <?= Html::encode("{$key->name_food} ({$key->cnt_order})") ?>:
-        <?= $key->cnt_order ?>
+        <?= Html::encode("{$key->name_food} ({$key->cnt_food})") ?>:
+        <?= $key->cnt_food ?>
     </li>
 <?php endforeach; ?>
 </ul>
 
-<?= LinkPager::widget(['pagination' => $pagination]) ?>
-<?php
-
-$dataProvider2 = new ActiveDataProvider([
-    'query' => $query1,
-    'pagination' => [
-        'pageSize' => 20,
-    ],
-  
-]);
-echo GridView::widget([
-    'dataProvider' => $dataProvider2,
-]);
-?>
+<h2>Сумма за выручки за день</h2>
 <ul>
     
     
 <?php 
-$query4 = $query5->all();
-foreach ($query4 as $key): ?>
+$queryVar2 = $querySumMany->all();
+//array_splice($queryVar2,5);
+foreach ($queryVar2 as $key):
+    echo $key->sumFromPrice;
+    
+
+    
+    ?>
     <li>
-        <?= Html::encode("{$key->waiter_id} ({$key->cnt_order})") ?>:
-        <?= $key->cnt_order ?>
+        <!--?= Html::encode("{$key->sumFromPrice} ({$key->id_order})") ?>:
+        <!--?= $key->cnt_food ?-->
     </li>
 <?php endforeach; ?>
 </ul>
 
-<?= LinkPager::widget(['pagination' => $pagination]) ?>
-<?php
 
-$dataProvider = new ActiveDataProvider([
-    'query' => $query5,
-    'pagination' => [
-        'pageSize' => 20,
-    ],
-]);
-echo GridView::widget([
-    'dataProvider' => $dataProvider,
-]);
-?>
-
-
-    <p>
-        <?= Html::a('Create Country', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-  
-    
 <p>
     
     You may change the content of this page by modifying

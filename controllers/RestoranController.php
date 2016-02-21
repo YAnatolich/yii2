@@ -32,7 +32,7 @@ class RestoranController extends \yii\web\Controller
         $order = new \app\models\Order();
         $waiter = new \app\models\Waiter();
         $orderFood = new \app\models\OrderFood();
-        $query5 = $order::find()
+        $queryPopWaiter = $order::find()
        ->select(['waiter.id_waiter','waiter.name','waiter.surname','order.id_order','order.date_order','COUNT(order.id_waiter) AS cnt_order'])
        ->join('LEFT JOIN', $waiter::tableName(), 'order.id_waiter=waiter.id_waiter')
        ->groupBy('order.id_waiter')
@@ -40,26 +40,38 @@ class RestoranController extends \yii\web\Controller
        ->limit(10);
       //  $query = new Query;
 // compose the query
-$query1 = $orderFood::find()
+$queryPopFood = $orderFood::find()
      ->select('food.name_food, COUNT( food.name_food ) as cnt_food,
  order_food.id_food, order_food.id_order')
     ->from('food')
-    ->join('LEFT JOIN', $orderFood::tableName(), 'order_food.id_food = food.id_food')
+    ->join('LEFT JOIN', $orderFood::tableName(), 
+            'order_food.id_food = food.id_food')
     ->groupBy('food.name_food')
     ->orderBy('cnt_food DESC')    
     ->limit(10)
     ;
-// build and execute the query
-//$rows = $query1->all();
-// alternatively, you can create DB command and execute it
-//$command = $query->createCommand();
-// $command->sql returns the actual SQL
 
-        
-       return $this->render('index',['foo' => 1,
+
+$querySelectOrder = $order::find()
+        ->select(['id_order'])
+        ->where(['date_order' => '2016-02-17'])->column()
+        ;
+
+
+
+$querySumMany = $order::find()
+        ->select(['SUM(food.price) AS sumFromPrice'])
+        ->from('food')
+        ->join('LEFT JOIN',$order::find(),'')
+        ->where(['order_food.id_food' => 'food.id_food',
+            'order_food.id_order' => $querySelectOrder
+            ]); 
+
+return $this->render('index',['foo' => 1,
     'bar' => 2,
-    'query5' =>$query5,
-    'query1'=>$query1
+    'queryPopFood' =>$queryPopFood,
+    'queryPopWaiter'=>$queryPopWaiter,
+    'querySumMany' => $querySumMany,
     ]);
     }
 

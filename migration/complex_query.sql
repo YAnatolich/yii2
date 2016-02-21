@@ -6,6 +6,10 @@ SELECT SUM(food.price) AS sumFromPrice
 FROM order_food, food WHERE order_food.id_food = food.id_food
  AND order_food.id_order IN (SELECT `id_order` FROM `order` WHERE `date_order` = '2016-02-17')
 
+    SELECT SUM(food.price) AS sumFromPrice
+    FROM food WHERE order_food.id_food = food.id_food
+JOIN `id_order` FROM `order` WHERE `date_order` = '2016-02-17'
+
 
 2)список последних 5 заказов
 a)

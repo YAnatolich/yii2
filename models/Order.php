@@ -18,7 +18,11 @@ class Order extends \yii\db\ActiveRecord
 {
      public $cnt_order;
      public $tmp_table;
-      public $waiter_id;
+     public $id_waiter;
+     public $sumFromPrice;
+     public $cnt_food;
+     public $price;
+     public $id_order;
     /**
      * @inheritdoc
      */
