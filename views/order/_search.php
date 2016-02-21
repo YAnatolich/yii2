@@ -14,7 +14,8 @@ use yii\widgets\ActiveForm;
         'action' => ['index'],
         'method' => 'get',
     ]); ?>
-
+    
+     <?= $form->field($model, 'cnt_order') ?>
     <?= $form->field($model, 'id_order') ?>
 
     <?= $form->field($model, 'id_waiter') ?>

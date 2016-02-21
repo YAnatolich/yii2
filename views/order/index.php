@@ -23,7 +23,10 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-        // 'waiter',
+        // 'waiter',''
+            'waiter.name',
+            'waiter.surname',
+            'cnt_order',
             'id_order',
             'id_waiter',
             'date_order',
@@ -31,5 +34,8 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
-    
+   
 </div>
+ <?php
+ echo "ssdf".$dataProvider->query->sql; 
+ ?>

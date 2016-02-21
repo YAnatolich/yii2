@@ -44,7 +44,7 @@ class WaiterSearch extends Waiter
         $query = Waiter::find();
 
         // add conditions that should always apply here
-
+        
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);

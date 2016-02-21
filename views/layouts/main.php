@@ -39,6 +39,7 @@ AppAsset::register($this);
             ['label' => 'Посмотреть официантов', 'url' => ['/waiter/index']],
             ['label' => 'Какие блюда', 'url' => ['/food/index']],
             ['label' => 'Заказы', 'url' => ['/order']],
+            ['label' => 'Ресторан', 'url' => ['/restoran/index']],
             ['label' => 'Home', 'url' => ['/site/index']],
             ['label' => 'About', 'url' => ['/site/about']],
             ['label' => 'Contact', 'url' => ['/site/contact']],

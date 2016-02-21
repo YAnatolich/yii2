@@ -12,6 +12,7 @@ use app\models\Waiter;
  */
 class OrderSearch extends Order
 {
+  
     /**
      * @inheritdoc
      */
@@ -22,6 +23,7 @@ class OrderSearch extends Order
             [['date_order'], 'safe'],
         ];
     }
+    
 
     /**
      * @inheritdoc
@@ -39,15 +41,47 @@ class OrderSearch extends Order
      *
      * @return ActiveDataProvider
      */
+    
     public function search($params)
     {
-        $query = Order::find();
         
-        $query2 = Waiter::find();
+        
+        $query2 = Order::find()
+                ->select(['id_waiter','COUNT(id_waiter) AS cnt_order'])
+                ->groupBy('{{id_waiter}}')
+                ->orderBy('cnt_order DESC')
+                ->limit(10);
+        
+      /* $query4 = Video::find()
+       ->select(['video.*', 'COUNT(likes.video_id) AS countlike'])
+       ->join('LEFT JOIN', Likes::tableName(), 'videos.id=likes.video_id')
+       ->groupBy('videos.id')
+       ->orderBy(['countlike' => SORT_DESC])
+       ->limit(10);
+        */
+      $query5 = Order::find()
+       ->select(['waiter.id_waiter','waiter.name','waiter.surname','order.id_order','order.date_order','COUNT(order.id_waiter) AS cnt_order'])
+       ->join('LEFT JOIN', Waiter::tableName(), 'order.id_waiter=waiter.id_waiter')
+       ->groupBy('order.id_waiter')
+       ->orderBy(['cnt_order' => SORT_DESC])
+       ->limit(10);
+       
+         
+//$data = $query->all();
+
+            
+        
+         $query3 = Order::find()
+                ->select(['date_order','id_order','waiter.id_waiter', 'waiter.name', 'waiter.surname'])
+                ->joinWith('waiter')
+                ->where(['waiter.id_waiter' => 'order.id_waiter']);
+                
+                
+       // $query2 = Waiter::find();
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
-            'query' => $query,
+            'query' => $query5,
             
         ]);
 
@@ -60,12 +94,14 @@ class OrderSearch extends Order
         }
 
         // grid filtering conditions
-        $query->andFilterWhere([
-            'id_order' => $this->id_order,
-            'id_waiter' => $this->id_waiter,
-            'date_order' => $this->date_order,
+       $query5->andFilterWhere([
+           'cnt_order'=>$this->cnt_order,
+           'id_order' => $this->id_order,
+           'id_waiter' => $this->id_waiter,
+           'date_order' => $this->date_order,
         ]);
 
         return $dataProvider;
     }
 }
+

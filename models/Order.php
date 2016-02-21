@@ -16,6 +16,9 @@ use Yii;
  */
 class Order extends \yii\db\ActiveRecord
 {
+     public $cnt_order;
+     public $tmp_table;
+      public $waiter_id;
     /**
      * @inheritdoc
      */
@@ -43,6 +46,7 @@ class Order extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
+            'cnt_order' => 'количество',
             'id_order' => 'Id Order',
             'id_waiter' => 'Id Waiter',
             'date_order' => 'Date Order',
@@ -58,7 +62,10 @@ class Order extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Waiter::className(), ['id_waiter' => 'id_waiter']);
     }
-
+public function getWaiter()
+    {
+        return $this->hasOne(Waiter::className(), ['id_waiter' => 'id_waiter']);
+    }
     /**
      * @return \yii\db\ActiveQuery
      */
