@@ -27,15 +27,11 @@ $this->params['breadcrumbs'][] = $this->title;
             'waiter.name',
             'waiter.surname',
             'cnt_order',
-            'id_order',
             'id_waiter',
-            'date_order',
+          
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
    
 </div>
- <?php
- echo "ssdf".$dataProvider->query->sql; 
- ?>

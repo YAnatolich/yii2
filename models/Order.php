@@ -50,12 +50,11 @@ class Order extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'cnt_order' => 'количество',
-            'id_order' => 'Id Order',
+            'cnt_order' => 'количество заказов',
+            'order.id_order' => 'Id Order',
             'id_waiter' => 'Id Waiter',
-            'date_order' => 'Date Order',
-            // MY MARK DELETE
-            'waiter.name' =>'waiter',
+            'waiter.name' =>'имя официанта',
+            'waiter.surname' =>'имя официанта',
         ];
     }
 

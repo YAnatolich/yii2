@@ -33,13 +33,7 @@ LIMIT 0 , 30
 
 
 3) Список 5 популярных блюд
-SELECT food.name_food, COUNT( food.name_food ),
- order_food.id_food, order_food.id_order
-FROM food 
-JOIN order_food ON order_food.id_food = food.id_food
-GROUP BY food.name_food
-ORDER BY COUNT( food.name_food ) DESC
-LIMIT 5
+SELECT food.name_food, COUNT( food.name_food ), order_food.id_food, order_food.id_order FROM food JOIN order_food ON order_food.id_food = food.id_food GROUP BY food.name_food ORDER BY COUNT( food.name_food ) DESC LIMIT 5
 
 4) 10 успешных официантов
 SELECT waiter.id_waiter, waiter.name, waiter.surname, cnt_order FROM 

@@ -62,12 +62,13 @@ class RestoranController extends \yii\web\Controller
 SELECT food.name_food, COUNT( food.name_food ) as cnt_food,
  order_food.id_food, order_food.id_order
 FROM food 
-JOIN order_food ON order_food.id_food = food.id_food
+ LEFT JOIN order_food ON order_food.id_food = food.id_food
 GROUP BY food.name_food
-ORDER BY COUNT( food.name_food ) DESC Limit 5
-
-' );
+ORDER BY COUNT( food.name_food ) DESC Limit 5' );
+       
+       
 $models = $command->queryAll();
+
 for ( $i = 0; $i < count( $models ); $i++ ) {
     $models[$i]['place'] = $i + 1;
 }
@@ -166,6 +167,8 @@ return $this->render('index',[
   'dataProvider' => $dataProvider,
     'dataProvider2' => $dataProvider2,
     'dataProvider3' => $dataProvider3,
+    'command'=>$command,
+    
     ]);
     }
 
